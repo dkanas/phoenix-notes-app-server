@@ -20,7 +20,7 @@ defmodule NotesWeb.Router do
   end
 
   scope "/api", NotesWeb do
-    pipe_through :api
+    pipe_through [:api, :auth]
 
     post "/login", AuthController, :login
   end
