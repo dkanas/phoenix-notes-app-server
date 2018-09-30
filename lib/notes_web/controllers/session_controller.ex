@@ -1,4 +1,4 @@
-defmodule NotesWeb.AuthController do
+defmodule NotesWeb.SessionController do
   use NotesWeb, :controller
   
   action_fallback NotesWeb.FallbackController
