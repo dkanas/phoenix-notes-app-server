@@ -4,10 +4,11 @@ defmodule Notes.Accounts do
   """
 
   import Ecto.Query, warn: false
-  alias Notes.Repo
 
+  alias Notes.Repo
   alias Notes.Accounts.User
   alias Comeonin.Pbkdf2
+  alias Notes.Accounts.Guardian
 
   @doc """
   Returns the list of users.
@@ -105,17 +106,17 @@ defmodule Notes.Accounts do
 
   def authenticate_user(email, password) do
     query = from u in User, where: u.email == ^email
-    query
-      |> Repo.one()
-      |> check_password(password)
+    user = query |> Repo.one()
+
+    case check_password(user, password) do
+      true -> Guardian.encode_and_sign(user)
+      false -> {:error, :unauthenticated}
+    end
   end
 
-  defp check_password(nil, _), do: {:error, "Incorrect email or password"}
+  defp check_password(nil, _), do: false
 
   defp check_password(user, password) do
-    case Pbkdf2.checkpw(password, user.password) do
-      true -> {:ok, user}
-      false -> {:error, "Incorrect email or password"}
-    end
+    Pbkdf2.checkpw(password, user.password)
   end
 end

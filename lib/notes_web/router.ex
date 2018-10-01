@@ -22,7 +22,7 @@ defmodule NotesWeb.Router do
   scope "/api", NotesWeb do
     pipe_through [:api, :auth]
 
-    post "/login", SessionController, :login
+    post "/login", UserController, :login
     resources "/register", UserController, only: [:create]
   end
 end

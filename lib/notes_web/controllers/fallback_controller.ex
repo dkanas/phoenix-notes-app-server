@@ -17,4 +17,10 @@ defmodule NotesWeb.FallbackController do
     |> put_status(:not_found)
     |> render(NotesWeb.ErrorView, :"404")
   end
+
+  def call(conn, {:error, :unauthenticated}) do
+    conn
+    |> put_status(:unauthorized)
+    |> render(NotesWeb.ErrorView, :"401")
+  end
 end
