@@ -16,6 +16,7 @@ defmodule Notes.Accounts.User do
     user
     |> cast(attrs, [:email, :password])
     |> validate_required([:email, :password])
+    |> unique_constraint(:email)
     |> put_pass_hash()
   end
 
