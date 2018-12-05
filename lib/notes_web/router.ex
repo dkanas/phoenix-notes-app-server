@@ -14,7 +14,7 @@ defmodule NotesWeb.Router do
   end
 
   scope "/api", NotesWeb do
-    pipe_through [:api, :auth, :ensure_auth]
+    pipe_through [:api, :auth]
 
     resources "/notes", NoteController
   end

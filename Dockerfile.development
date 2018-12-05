@@ -1,0 +1,18 @@
+# light base image
+FROM bitwalker/alpine-elixir-phoenix:latest
+
+# add postgres client to check db status before running the app
+RUN apk add --no-cache postgresql-client
+
+# set up folders
+RUN mkdir /app
+COPY . /app
+WORKDIR /app
+
+# install deps
+RUN mix deps.get
+
+USER default
+
+# run app
+CMD ./run.sh
